@@ -2,7 +2,7 @@
 
 ## Features
 - Fast recording, type numbers
-- Spreedsheet like
+- Spreadsheet like
 - Cloud based
 - Powerful analytics
 
