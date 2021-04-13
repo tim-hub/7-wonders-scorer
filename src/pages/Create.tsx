@@ -1,93 +1,245 @@
-import * as React from 'react';
-import ReactDataSheet from 'react-datasheet';
-import "react-datasheet/lib/react-datasheet.css";
-import "./Create.css";
+import * as React from "react";
+import ReactDataSheet from "react-datasheet";
+// import "react-datasheet/lib/react-datasheet.css";
+// import "./Create.css";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import { CATEGORIES } from '../constants/categories';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
+const initialGrid = [
+  [
+    { value: "Player 1", color: "red" },
+    {
+      value: 'Player 2',
+      component: (
+        <button onClick={() => console.log("clicked")}>Rendered</button>
+      ),
+    },
+    { value: "Player 3"},
+    { value: "Player 4"},
+    { value: "Player 5"},
+    { value: "Player 6"},
+    { value: "Player 7"},
+  ],
+  [
+    { value: "Wonder 1"},
+    {
+      value: 'Wonder 2',
+    },
+    { value: "Player 3"},
+    { value: "Player 4"},
+    { value: "Player 5"},
+    { value: "Player 6"},
+    { value: "Player 7"},
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+    { value: null },
+  ],
+  [
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+  ],
+  [
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+    { value: null, readOnly: true },
+  ],
+]
+
+
+
 
 export interface GridElement extends ReactDataSheet.Cell<GridElement, number> {
   value: number | null | string;
+  color?: string;
 }
 
-class MyReactDataSheet extends ReactDataSheet<GridElement, number> { }
+class DataSheet extends ReactDataSheet<GridElement, number> {}
 
 interface AppState {
   grid: GridElement[][];
 }
 
 //You can also strongly type all the Components or SFCs that you pass into ReactDataSheet.
-const cellRenderer: ReactDataSheet.CellRenderer<GridElement, number> = (props ) => {
-  const backgroundStyle = props.cell.value && props.cell.value < 0 ? {color: 'red'} : undefined;
+const cellRenderer: ReactDataSheet.CellRenderer<GridElement, number> = (
+  props
+) => {
+  const backgroundStyle =
+    props.cell.value && props.cell.value < 0 ? { color: "red" } : undefined;
 
-  console.log(props);
+  // console.log(props);
 
-  let className = 'cell';
+  let className = "cell";
   if (props.cell.readOnly) {
-    className = 'cell read-only'
+    className += " read-only";
+  }
+  if (props.col === 0) {
+    className += " long-cell";
   }
 
   return (
-    <td style={backgroundStyle} onMouseDown={props.onMouseDown} onMouseOver={props.onMouseOver} onDoubleClick={props.onDoubleClick} className={className}>
+    <TableCell
+      align={"right"}
+      onMouseDown={props.onMouseDown}
+      onMouseOver={props.onMouseOver}
+      onDoubleClick={props.onDoubleClick}
+      onSelect={(a) => {
+        console.log(a);
+      }}
+      onClick={(a) => {
+        console.log(a);
+      }}
+    >
       {props.children}
-    </td>
-  )
-}
+    </TableCell>
+  );
+};
 
 export default class Create extends React.Component<{}, AppState> {
-  constructor (props: {}) {
-    super(props)
+  constructor(props: {}) {
+    super(props);
     this.state = {
-      grid: [
-        [
-          { readOnly: true, value: '' },
-          { value: 'A', readOnly: true },
-          { value: 'B', readOnly: true },
-          { value: 'C', readOnly: true },
-          { value: 'D', readOnly: true },
-        ],
-        [
-          { readOnly: true, value: 1 },
-          { value: 1 },
-          { value: 3 },
-          { value: 3 },
-          { value: -2 },
-        ],
-        [
-          { readOnly: true, value: 2 },
-          { value: 2 },
-          { value: 4 },
-          { value: 4 },
-          { value: 4 },
-        ],
-        [
-          { readOnly: true, value: 3 },
-          { value: 1 },
-          { value: 3 },
-          { value: 3 },
-          { value: 3 },
-        ],
-        [
-          { readOnly: true, value: 4 },
-          { value: 2 },
-          { value: 4 },
-          { value: 4 },
-          { value: 4 },
-        ],
-      ]
-    }
+      grid: initialGrid,
+    };
   }
-  render () {
+
+  rowRender =(props: any) => {
+
+    const category = CATEGORIES[props.row];
+
     return (
-      <MyReactDataSheet
+      <TableRow>
+        <TableCell>
+          <Chip label={category.label} icon={
+            category.icon ?category.icon : <></>
+          } />
+        </TableCell>
+        {props.children}
+      </TableRow>
+    )
+  }
+
+  sheetRender = (props: any) => (
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableRow />
+            {'ABCDEFG'.split('').map((col) => (
+              <TableCell align={'center'}>{col}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>{props.children}</TableBody>
+      </Table>
+    </TableContainer>
+  )
+
+  render() {
+    return (
+      <DataSheet
         data={this.state.grid}
-        valueRenderer={(cell) => cell.value}
-        onCellsChanged={changes => {
-          const grid = this.state.grid.map(row => [...row])
-          changes.forEach(({cell, row, col, value}) => {
-            grid[row][col] = {...grid[row][col], value}
-          })
-          this.setState({grid})
+        valueRenderer={(cell, i, j) => {
+          return cell.value;
+        }}
+        dataRenderer={(cell, i, j) => {
+          return cell.value;
+        }}
+        // attributesRenderer={(cell) => {'data-hint': cell.hint || {}}
+        onCellsChanged={(changes) => {
+          const grid = this.state.grid.map((row) => [...row]);
+          changes.forEach(({ cell, row, col, value }) => {
+            grid[row][col] = { ...grid[row][col], value };
+          });
+          this.setState({ grid });
         }}
         cellRenderer={cellRenderer}
+        sheetRenderer={this.sheetRender}
+        rowRenderer={this.rowRender}
       />
-    )
+    );
   }
 }
