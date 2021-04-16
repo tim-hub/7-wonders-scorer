@@ -72,7 +72,6 @@ export const CATEGORIES : Array<ICategory> = [
   },
   {
     label: 'Sum',
-    icon: <FunctionsIcon color={'primary'} />,
     color: 'red',
   },
   {
