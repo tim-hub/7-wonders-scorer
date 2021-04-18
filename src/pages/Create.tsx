@@ -1,7 +1,5 @@
 import * as React from "react";
 import ReactDataSheet from "react-datasheet";
-// import "react-datasheet/lib/react-datasheet.css";
-// import "./Create.css";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,7 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import { CATEGORIES } from '../constants/categories';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import {makeStyles} from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
 
 const initialGrid = [
   [
@@ -142,35 +141,15 @@ interface AppState {
   grid: GridElement[][];
 }
 
-/**
- *
- * You can also strongly type all the Components or SFCs that you pass into ReactDataSheet.
- * https://github.com/nadbm/react-datasheet#cell-renderer
- * @param props
- */
-const cellRenderer: ReactDataSheet.CellRenderer<GridElement, number> = (
-  props
-) => {
-  const backgroundStyle =
-    props.cell.value && props.cell.value < 0 ? { color: "red" } : undefined;
+const useStyles = makeStyles({
+  cellSelected: {
+    border: '1px double #2185d0',
+    boxShadow: 'inset 0 -100px 0 rgba(33,133,208,.15)',
+  },
+  cellDefault: {
 
-  return (
-    <TableCell
-      align={ props?.selected ? "left": "right"}
-      onMouseDown={props.onMouseDown}
-      onMouseOver={props.onMouseOver}
-      onDoubleClick={props.onDoubleClick}
-      onSelect={(a) => {
-        console.log(a);
-      }}
-      onClick={(a) => {
-        console.log(a);
-      }}
-    >
-      {props.children}
-    </TableCell>
-  );
-};
+  }
+});
 
 export default class Create extends React.Component<any, AppState> {
   constructor(props: any) {
@@ -180,10 +159,47 @@ export default class Create extends React.Component<any, AppState> {
     };
   }
 
-  rowRender =(props: any) => {
+  dataEditor = (props: any)=> {
+    return (
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" value={props.value} onChange={(e)=>{
+        props.onChange(e.target.value)
+      }} onKeyDown={props.onKeyDown} />
+    );
+  }
 
+  /**
+   *
+   * You can also strongly type all the Components or SFCs that you pass into ReactDataSheet.
+   * https://github.com/nadbm/react-datasheet#cell-renderer
+   * @param props
+   */
+  cellRenderer =  (
+    props: any
+  ) => {
+
+    const styles = useStyles();
+
+    return (
+      <TableCell
+        className={props?.selected ? styles.cellSelected : styles.cellDefault}
+        onMouseDown={props.onMouseDown}
+        onMouseOver={props.onMouseOver}
+        onDoubleClick={props.onDoubleClick}
+        onSelect={(a) => {
+          console.log(a);
+        }}
+        onClick={(a) => {
+          console.log(a);
+        }}
+      >
+        {props.children}
+      </TableCell>
+    );
+  };
+
+
+  rowRenderer =(props: any) => {
     const category = CATEGORIES[props.row];
-
     return (
       <TableRow>
         <TableCell>
@@ -196,7 +212,7 @@ export default class Create extends React.Component<any, AppState> {
     )
   }
 
-  sheetRender = (props: any) => (
+  sheetRenderer = (props: any) => (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
@@ -230,9 +246,12 @@ export default class Create extends React.Component<any, AppState> {
           });
           this.setState({ grid });
         }}
-        cellRenderer={cellRenderer}
-        sheetRenderer={this.sheetRender}
-        rowRenderer={this.rowRender}
+        cellRenderer={this.cellRenderer}
+        sheetRenderer={this.sheetRenderer}
+        rowRenderer={this.rowRenderer}
+        dataEditor={
+          this.dataEditor
+        }
       />
     );
   }
