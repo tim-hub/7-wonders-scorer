@@ -33,13 +33,13 @@ export interface ICategory {
 
 export const CATEGORIES : Array<ICategory> = [
   {
-    label: 'Player',
-    icon: <FaceIcon color={'secondary'} />,
+    label: 'Wonder',
+    icon: <PublicIcon color={'secondary'} />,
     color: 'secondary',
   },
   {
-    label: 'Wonder',
-    icon: <PublicIcon color={'secondary'} />,
+    label: 'Player',
+    icon: <FaceIcon color={'secondary'} />,
     color: 'secondary',
   },
   {

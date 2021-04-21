@@ -12,12 +12,13 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import { CATEGORIES } from '../constants/categories';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import SelectEditor from '../components/SelectEditor';
 
 const initialGrid = [
   [
-    { value: "Player 1", color: "red" },
+    { value: "Wonder 1"},
     {
-      value: 'Player 2',
+      value: 'Wonder 2',
     },
     { value: "Player 3"},
     { value: "Player 4"},
@@ -26,9 +27,9 @@ const initialGrid = [
     { value: "Player 7"},
   ],
   [
-    { value: "Wonder 1"},
+    { value: "Player 1", color: "red" },
     {
-      value: 'Wonder 2',
+      value: 'Player 2',
     },
     { value: "Player 3"},
     { value: "Player 4"},
@@ -173,7 +174,7 @@ const cellRenderer: ReactDataSheet.CellRenderer<GridElement, number> = (
 };
 
 export default class Create extends React.Component<any, AppState> {
-  constructor(props: any) {
+  constructor(props: never) {
     super(props);
     this.state = {
       grid: initialGrid,
