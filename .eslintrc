@@ -1,4 +1,5 @@
 {
+// further update read  https://medium.com/litslink/react-js-adding-eslint-with-prettier-husky-git-hook-480ad39e65e9
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
