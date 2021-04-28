@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { ENTER_KEY, TAB_KEY} from '../constants/keys';
+import { ENTER_KEY, TAB_KEY} from '../../constants/keys';
 import Select from '@material-ui/core/Select';
 
 class SelectEditor extends PureComponent {
